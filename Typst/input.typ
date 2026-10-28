@@ -2,7 +2,7 @@
 // ============================================ INPUT ===========================================
 // ==============================================================================================
 // [UC-TeX][INPUT] Completa estos datos; main.typ los pasa a la plantilla con report.with(..info).
-// Las rutas empiezan con "/" y son relativas a la carpeta Plantilla-Typst/.
+// Las rutas empiezan con "/" y son relativas a la carpeta Typst/.
 
 #let info = (
   // [UC-TeX][INPUT] Idioma: "es" o "en" (títulos, portada, fechas).

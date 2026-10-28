@@ -1,4 +1,4 @@
-// [UC-TeX] Textos fijos en español e inglés (desde Plantilla/Config/Locales).
+// [UC-TeX] Textos fijos en español e inglés (desde LaTeX/Config/Locales).
 // Uso: t(lang, "abstract"); los pares (singular, plural) se eligen con tn(lang, "student", n).
 
 #let strings = (

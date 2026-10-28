@@ -1,4 +1,4 @@
-// [UC-TeX] Esfera celeste en CeTZ (reemplaza Plantilla/Resources/tikz/celestial_sphere.tex).
+// [UC-TeX] Esfera celeste en CeTZ (reemplaza LaTeX/Resources/tikz/celestial_sphere.tex).
 //
 // Uso:
 //   #import "/resources/cetz/celestial-sphere.typ": celestial-sphere

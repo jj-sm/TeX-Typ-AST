@@ -317,7 +317,8 @@ temp_*/
 .claude/settings*.json
 
 ## [UC-TeX] Typst build output
-Plantilla-Typst/**/*.pdf
+Typst/**/*.pdf
+Typst/_check.typ
 typst-x86_64-unknown-linux-musl*
 
 ## Local AI/agent files (never pushed)

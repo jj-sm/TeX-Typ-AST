@@ -19,8 +19,8 @@ Plantilla para informes y laboratorios de estudiantes de la Pontificia Universid
 
 A partir de la versión 3.0.0, la plantilla está disponible en dos formatos que pueden ser usados indistintamente y producen resultados casi idénticos:
 
-* **LaTeX (`Plantilla/`)**: La versión clásica basada en AASTeXv7. Recomendada si ya estás acostumbrado a LaTeX, necesitas usar paquetes de LaTeX específicos o estás editando en Overleaf.
-* **Typst (`Plantilla-Typst/`)**: Una versión moderna escrita en [Typst](https://typst.app/). Typst compila instantáneamente, tiene una sintaxis más limpia y mensajes de error mucho más claros. Recomendada para nuevos usuarios, informes rápidos o si quieres compilar localmente sin instalar una distribución pesada de LaTeX.
+* **LaTeX (`LaTeX/`)**: La versión clásica basada en AASTeXv7. Recomendada si ya estás acostumbrado a LaTeX, necesitas usar paquetes de LaTeX específicos o estás editando en Overleaf.
+* **Typst (`Typst/`)**: Una versión moderna escrita en [Typst](https://typst.app/). Typst compila instantáneamente, tiene una sintaxis más limpia y mensajes de error mucho más claros. Recomendada para nuevos usuarios, informes rápidos o si quieres compilar localmente sin instalar una distribución pesada de LaTeX.
 
 ---
 
@@ -33,11 +33,11 @@ Puedes usar Typst a través de su [Web App](https://typst.app/) o localmente. Pa
 1. Instala Typst (`brew install typst`, `cargo install typst-cli`, o descarga los binarios).
 2. Desde la raíz de esta plantilla, ejecuta el comando para compilar el PDF:
    ```bash
-   typst compile Plantilla-Typst/main.typ
+   typst compile Typst/main.typ
    ```
 3. O usa el modo de observación para recompilar automáticamente cada vez que guardes el archivo:
    ```bash
-   typst watch Plantilla-Typst/main.typ
+   typst watch Typst/main.typ
    ```
 
 **Configuración (`input.typ`)**:
@@ -177,8 +177,8 @@ El archivo adjunto al release se llama `Plantilla-<tag>.zip`.
 
 ## Licencias
 
-* El código general de este repositorio, incluyendo `Plantilla-Typst/`, está cubierto por la licencia especificada en `LICENSE`.
-* Los estilos de citas (`Plantilla-Typst/styles/*.csl`) provienen del proyecto CSL y están bajo la licencia CC BY-SA 3.0.
+* El código general de este repositorio, incluyendo `Typst/`, está cubierto por la licencia especificada en `LICENSE`.
+* Los estilos de citas (`Typst/styles/*.csl`) provienen del proyecto CSL y están bajo la licencia CC BY-SA 3.0.
 * Los paquetes de Typst Universe usados (como `@preview/cetz` y `@preview/unify`) son descargados al momento de compilar y tienen sus propias licencias.
 
 Made with ❤️ by [jj-sm](https://www.linkedin.com/in/jj-sm/)
