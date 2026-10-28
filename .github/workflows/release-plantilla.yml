@@ -56,7 +56,7 @@ jobs:
         run: |
           TYPST_ARCHIVE_NAME="${{ steps.vars.outputs.typst_archive_name }}"
           cd Typst
-          zip -r "../${TYPST_ARCHIVE_NAME}" . -x "*.pdf" -x "_check.typ" -x ".gitignore"
+          zip -r "../${TYPST_ARCHIVE_NAME}" . -x "*.pdf" -x "_check.typ" -x ".gitignore" -x "examples/*" -x "examples/"
           cd ..
 
       - name: Create GitHub Release and upload asset

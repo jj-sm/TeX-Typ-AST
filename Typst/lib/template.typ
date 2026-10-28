@@ -6,6 +6,7 @@
 //
 // report(                               // #show: report.with(..info, abstract: [...], keywords: (...))
 //   lang: "es",                         // "es" | "en"
+//   style: "preprint2",                 // "default" | "twocolumn" | "preprint" | "preprint2" | "manuscript" | "modern"
 //   cover: "full",                      // "full" (portada propia) | "short" (título al inicio de la pág. 1)
 //   logo: none, logo-scale: 0.6,        // ruta absoluta desde la raíz, p. ej. "/resources/logos/AST-h-black.png"
 //   title: none, specific-title: none,  // título largo (portada) y específico (portada corta)
@@ -55,10 +56,10 @@
 #import "helpers.typ": *
 
 #let link-color = rgb("#3d3d9e")
-#let base-size = 12pt
 
 #let report(
   lang: "es",
+  style: "preprint2",
   cover: "full",
   logo: none,
   logo-scale: 0.6,
@@ -83,9 +84,11 @@
   assert(lang in ("es", "en"), message: "lang debe ser \"es\" o \"en\"")
   assert(cover in ("full", "short"), message: "cover debe ser \"full\" o \"short\"")
   assert(cite-style in ("author-year", "numeric"), message: "cite-style debe ser \"author-year\" o \"numeric\"")
+  assert(style in ("default", "twocolumn", "preprint", "preprint2", "manuscript", "modern"), message: "style no válido")
 
   let info = (
     lang: lang,
+    style: style,
     cover: cover,
     logo: logo,
     logo-scale: logo-scale,
@@ -110,11 +113,17 @@
   set document(title: title, author: authors.map(a => a.name))
   _refs-config.update((path: bibliography, cite-style: cite-style, columns: refs-columns, lang: lang))
 
-  // --- Página: preprint2 (carta, dos columnas, 12pt) ---
+
+  // --- Estilos de página y texto ---
+  let is_two_col = style in ("twocolumn", "preprint2")
+  let base_size = if style in ("preprint", "preprint2", "manuscript", "modern") { 12pt } else { 10pt }
+  let doc_font = if style == "modern" { ("PT Sans", "Arial", "Helvetica", "sans-serif") } else { "New Computer Modern" }
+  let (is_double_spaced, doc_leading, doc_spacing) = if style == "manuscript" { (true, 1.2em, 1.2em) } else { (false, 0.55em, 0.55em) }
+
   set page(
     paper: "us-letter",
     margin: (x: 0.7in, top: 0.9in, bottom: 0.85in),
-    columns: 2,
+    columns: if is_two_col { 2 } else { 1 },
     header-ascent: 35%,
     header: context {
       let p = counter(page).get().first()
@@ -128,9 +137,9 @@
     },
   )
   set columns(gutter: 0.3125in)
-  set text(font: "New Computer Modern", size: base-size, lang: lang)
+  set text(font: doc_font, size: base_size, lang: lang)
   set smartquote(quotes: ("“", "”"))
-  set par(justify: true, leading: 0.55em, spacing: 0.55em, first-line-indent: (amount: 0.125in, all: true))
+  set par(justify: true, leading: doc_leading, spacing: doc_spacing, first-line-indent: (amount: 0.125in, all: true))
 
   // --- Notas al pie: sin línea divisoria (como \let\footnoterule\relax en TeXAST.cls) ---
   set footnote.entry(separator: none, indent: 0pt)
@@ -144,8 +153,8 @@
   // --- Títulos: centrados; nivel 1 en mayúsculas, niveles 2+ en cursiva ---
   set heading(numbering: "1.1.")
   show heading: it => {
-    let sz = if it.level >= 3 { 11pt } else { base-size }
-    let num-sz = if it.level == 1 or it.level >= 3 { 11pt } else { base-size }
+    let sz = if it.level >= 3 { base_size - 1pt } else { base_size }
+    let num-sz = if it.level == 1 or it.level >= 3 { base_size - 1pt } else { base_size }
     let num = if it.numbering != none {
       text(size: num-sz, style: "normal", counter(heading).display(it.numbering)) + h(0.4em)
     }
@@ -190,8 +199,8 @@
     }
   )
   show figure.caption: it => context {
-    if it.numbering == none or it.supplement == none { return align(center, text(size: 11pt, it.body)) }
-    let cap = text(size: 11pt)[*#it.supplement #it.counter.display(it.numbering).* #it.body]
+    if it.numbering == none or it.supplement == none { return align(center, text(size: base_size - 1pt, it.body)) }
+    let cap = text(size: base_size - 1pt)[*#it.supplement #it.counter.display(it.numbering).* #it.body]
     layout(size => {
       if measure(cap).width <= size.width {
         align(center, cap)

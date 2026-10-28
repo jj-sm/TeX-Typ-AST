@@ -43,6 +43,7 @@ Puedes usar Typst a través de su [Web App](https://typst.app/) o localmente. Pa
 **Configuración (`input.typ`)**:
 El archivo `input.typ` contiene la configuración principal del documento que puedes ajustar:
 * `lang`: Idioma del documento (`"es"` o `"en"`).
+* `style`: Estilo del documento (`"default"`: 1 columna, 10pt; `"twocolumn"`: 2 columnas, 10pt; `"preprint"`: 1 columna, 12pt; `"preprint2"`: 2 columnas, 12pt; `"manuscript"`: 1 columna, 12pt, doble espaciado; `"modern"`: 1 columna, 12pt, aspecto moderno). Corresponde a las opciones equivalentes de `\\documentclass` en LaTeX.
 * `cover`: Tipo de portada (`"full"` para portada completa, `"short"` para título corto).
 * `logo` / `logo-scale`: Ruta al logo de la universidad o facultad y su escala.
 * `title` / `specific-title`: Título principal y específico de la portada.
