@@ -5,6 +5,7 @@ cff-version: 1.2.0
 title: AST-FIZ TeX Template
 message: TeX Template for PUC students
 type: software
+version: 3.0.0
 authors:
   - given-names: Juan José
     family-names: Sánchez Medina
@@ -20,7 +21,7 @@ authors:
     alias: AAS
     website: 'https://journals.aas.org/'
     location: ' Suite 800'
-repository-code: 'https://github.com/jj-sm/TeX-AST/'
+repository-code: 'https://github.com/jj-sm/TeX-Typ-AST/'
 url: 'https://jjsm.science/projects/tex-ast/'
 repository: 'https://github.com/AASJournals/AASTeX7'
 abstract: >-
@@ -30,7 +31,8 @@ abstract: >-
 
 
   This template was mainly taken from AASTeXv7 with a heavy
-  suite of modifications.
+  suite of modifications. It is now available in both LaTeX
+  and Typst versions.
 keywords:
   - TeX
   - Template

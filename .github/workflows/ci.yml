@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Compile LaTeX
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: Main.tex
+          working_directory: Plantilla
+          compiler: latexmk
+          args: -pdf -interaction=nonstopmode
+
+      - name: Setup Typst
+        uses: typst-community/setup-typst@v5
+        with:
+          typst-version: '0.15.1'
+
+      - name: Compile Typst
+        run: typst compile Plantilla-Typst/main.typ
+        # packages @preview/cetz:0.5.3 and unify:0.8.1 download at compile time
+
+      - name: Upload PDF Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: compiled-pdfs
+          path: |
+            Plantilla/Main.pdf
+            Plantilla-Typst/main.pdf
