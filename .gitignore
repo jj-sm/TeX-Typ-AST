@@ -309,3 +309,20 @@ TSWLatexianTemp*
 # option is specified. Footnotes are the stored in a file with suffix Notes.bib.
 # Uncomment the next line to have this generated file ignored.
 #*Notes.bib
+
+# [UC-TeX] working repo for the Typst migration: agent files are tracked here,
+# personal report copies and local agent settings are not.
+temp_*/
+/PLAN.md
+.claude/settings*.json
+
+## [UC-TeX] Typst build output
+Plantilla-Typst/**/*.pdf
+typst-x86_64-unknown-linux-musl*
+
+## Local AI/agent files (never pushed)
+.ai/
+/CLAUDE.md
+/AGENTS.md
+/GEMINI.md
+/.claude

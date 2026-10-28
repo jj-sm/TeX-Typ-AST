@@ -15,6 +15,60 @@ Plantilla para informes y laboratorios de estudiantes de la Pontificia Universid
 >- Se usa `pdfTeX` para compilar el documento.
 >- Se usa el estilo bibliográfico para citas de **AAS Journals**, el cual se encuentra en `../Config/NoMod/aasjournalv7.bst` y puede ser reemplazado. En caso tal referenciarlo al final del documento principal.
 
+## LaTeX o Typst
+
+A partir de la versión 3.0.0, la plantilla está disponible en dos formatos que pueden ser usados indistintamente y producen resultados casi idénticos:
+
+* **LaTeX (`Plantilla/`)**: La versión clásica basada en AASTeXv7. Recomendada si ya estás acostumbrado a LaTeX, necesitas usar paquetes de LaTeX específicos o estás editando en Overleaf.
+* **Typst (`Plantilla-Typst/`)**: Una versión moderna escrita en [Typst](https://typst.app/). Typst compila instantáneamente, tiene una sintaxis más limpia y mensajes de error mucho más claros. Recomendada para nuevos usuarios, informes rápidos o si quieres compilar localmente sin instalar una distribución pesada de LaTeX.
+
+---
+
+### Versión Typst
+
+**Requisitos**: Typst 0.15.0 o superior.
+
+**Compilación y uso local**:
+Puedes usar Typst a través de su [Web App](https://typst.app/) o localmente. Para uso local:
+1. Instala Typst (`brew install typst`, `cargo install typst-cli`, o descarga los binarios).
+2. Desde la raíz de esta plantilla, ejecuta el comando para compilar el PDF:
+   ```bash
+   typst compile Plantilla-Typst/main.typ
+   ```
+3. O usa el modo de observación para recompilar automáticamente cada vez que guardes el archivo:
+   ```bash
+   typst watch Plantilla-Typst/main.typ
+   ```
+
+**Configuración (`input.typ`)**:
+El archivo `input.typ` contiene la configuración principal del documento que puedes ajustar:
+* `lang`: Idioma del documento (`"es"` o `"en"`).
+* `cover`: Tipo de portada (`"full"` para portada completa, `"short"` para título corto).
+* `logo` / `logo-scale`: Ruta al logo de la universidad o facultad y su escala.
+* `title` / `specific-title`: Título principal y específico de la portada.
+* `subject`: Código y nombre de la asignatura (`code`, `name`).
+* `authors`, `professors`, `assistants`: Listas de personas involucradas. Cada persona es un diccionario con `name`, `orcid`, `email`, y `affiliation`.
+* `orcid`: Mostrar o no el ícono ORCID enlazado.
+* `lab-date` / `report-date`: Fecha del laboratorio y fecha de entrega.
+* `short-title` / `short-authors`: Encabezados de página para páginas pares e impares.
+* `cite-style`: Estilo de citas (`"author-year"` o `"numeric"`).
+* `bibliography`: Ruta al archivo `.bib` (ej. `"/Bibliography.bib"`).
+* `refs-columns`: Número de columnas para las referencias (1 o 2).
+
+**Helpers y Funciones útiles (API)**:
+Puedes llamar a estas funciones en cualquier parte del documento:
+* `references-here()`: Inserta la bibliografía en la posición actual en lugar de al final.
+* `citet("key")`, `citep("key")`: Citas textuales y parentéticas.
+* `#show: appendix`: Inicia la sección de apéndices.
+* `deluxetable(caption: none, columns: (), header: (), rows: (), comments: none, wide: false)`: Tabla con formato AASTeX. Usa `headgroup[..]` dentro de `rows` para una fila de grupo que abarca todas las columnas.
+* Cajas de comentarios (TODOs): `todo-error[..]`, `todo-warn[..]`, `todo-remark[..]`, `todo-hint[..]`, `todo-done[..]`, `todo-short[..]`, y `#todo-list()` para listar todos los pendientes.
+* Metadatos y software: `facilities(..)`, `software(..)`, `softwarecode(..)`, `softwareai(..)`, `dataset(..)`.
+* Astronomía: `ra(h, m, s)`, `dec(d, m, s)`, `object("name")` (enlace a SIMBAD), `cfeh`, `qty`, `num`, `unit` (usando el paquete `unify`).
+* Figuras: `gridline(..figs)` para grillas de figuras, `subfig(img, width, caption)` para subfiguras, `missing-figure[texto]`.
+* TikZ/Esfera celeste: `celestial-sphere(..)` importando de `resources/cetz/celestial-sphere.typ`.
+
+---
+
 ## Vista General
 
 Esta plantilla permite hacer de manera dinámica informes _formateados_ en $\LaTeX$ bajo la plantilla inicial proporcionada por [AASTeXv7](https://journals.aas.org/aastex-package-for-manuscript-preparation/#_download); por este motivo, todos los comandos básicos de `AASTeXv7` funcionan en esta plantilla. Para ver información acerca de estos comandos, dirigete a la guía de [_AASTeXv7 Guide_](https://journals.aas.org/aastexguide/).
@@ -36,7 +90,7 @@ Además, bajo la carpeta de `tikz` incluye soporte para la creación de esferas 
 
 
 ## Instalación
-Puedes comenzar a trabajar desde el `.zip` en los últimos _releases_ [aquí](https://github.com/jj-sm/TeX-AST/releases/download/v1.0/TeX-ASTFIZ.zip).
+Puedes comenzar a trabajar desde el `.zip` en los últimos _releases_ [aquí](https://github.com/jj-sm/TeX-Typ-AST/releases/download/v1.0/TeX-ASTFIZ.zip).
 
 >[!CAUTION]
 > En el caso de usar overleaf, y querer trabajar con las esferas celestes, te recomendamos que descargues la carpeta que contiene al `.tex` de las esferas celestes (verificando que incluyas al `>>.code.tex` y compilar cada figura por aparte para luego agregarlas a la carpeta output y poder ser usadas en el documento principal.
@@ -121,6 +175,11 @@ Para release manual:
 
 El archivo adjunto al release se llama `Plantilla-<tag>.zip`.
 
+## Licencias
+
+* El código general de este repositorio, incluyendo `Plantilla-Typst/`, está cubierto por la licencia especificada en `LICENSE`.
+* Los estilos de citas (`Plantilla-Typst/styles/*.csl`) provienen del proyecto CSL y están bajo la licencia CC BY-SA 3.0.
+* Los paquetes de Typst Universe usados (como `@preview/cetz` y `@preview/unify`) son descargados al momento de compilar y tienen sus propias licencias.
 
 Made with ❤️ by [jj-sm](https://www.linkedin.com/in/jj-sm/)
 

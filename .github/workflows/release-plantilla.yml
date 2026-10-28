@@ -40,8 +40,10 @@ jobs:
           esac
 
           ARCHIVE_NAME="Plantilla-${TAG_NAME}.zip"
+          TYPST_ARCHIVE_NAME="Plantilla-Typst-${TAG_NAME}.zip"
           echo "tag_name=${TAG_NAME}" >> "$GITHUB_OUTPUT"
           echo "archive_name=${ARCHIVE_NAME}" >> "$GITHUB_OUTPUT"
+          echo "typst_archive_name=${TYPST_ARCHIVE_NAME}" >> "$GITHUB_OUTPUT"
 
       - name: Create release archive from Plantilla
         run: |
@@ -50,10 +52,19 @@ jobs:
           zip -r "../${ARCHIVE_NAME}" . -x ".gitignore"
           cd ..
 
+      - name: Create release archive from Plantilla-Typst
+        run: |
+          TYPST_ARCHIVE_NAME="${{ steps.vars.outputs.typst_archive_name }}"
+          cd Plantilla-Typst
+          zip -r "../${TYPST_ARCHIVE_NAME}" . -x "*.pdf" -x "_check.typ" -x ".gitignore"
+          cd ..
+
       - name: Create GitHub Release and upload asset
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.vars.outputs.tag_name }}
           target_commitish: ${{ github.sha }}
           name: TeX-ASTFIZ ${{ steps.vars.outputs.tag_name }}
-          files: ${{ steps.vars.outputs.archive_name }}
+          files: |
+            ${{ steps.vars.outputs.archive_name }}
+            ${{ steps.vars.outputs.typst_archive_name }}
