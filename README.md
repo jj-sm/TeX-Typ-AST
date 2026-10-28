@@ -90,7 +90,7 @@ Además, bajo la carpeta de `tikz` incluye soporte para la creación de esferas 
 
 
 ## Instalación
-Puedes comenzar a trabajar desde el `.zip` en los últimos _releases_ [aquí](https://github.com/jj-sm/TeX-Typ-AST/releases/download/v1.0/TeX-ASTFIZ.zip).
+Descarga el `.zip` del último _release_ [aquí](https://github.com/jj-sm/TeX-Typ-AST/releases/latest): `TeX-AST-Template-<versión>.zip` (LaTeX) o `Typ-AST-Template-<versión>.zip` (Typst).
 
 >[!CAUTION]
 > En el caso de usar overleaf, y querer trabajar con las esferas celestes, te recomendamos que descargues la carpeta que contiene al `.tex` de las esferas celestes (verificando que incluyas al `>>.code.tex` y compilar cada figura por aparte para luego agregarlas a la carpeta output y poder ser usadas en el documento principal.
@@ -150,9 +150,9 @@ Las indicaciones marcadas con: `<--*` indican que ese archivo o directorio no de
 ## Contribuir
 Se recibe feedback, contribuciones, PRs; ¡todo es bienvenido!
 
-## Publicar release de Plantilla
+## Publicar un release
 
-El repositorio incluye el workflow [.github/workflows/release-plantilla.yml](.github/workflows/release-plantilla.yml), que empaqueta el contenido de `Plantilla/` (excluyendo `Plantilla/.gitignore`) y lo sube como asset de un release.
+El repositorio incluye el workflow [.github/workflows/release-plantilla.yml](.github/workflows/release-plantilla.yml), que empaqueta `LaTeX/` y `Typst/` (sin `.gitignore` ni PDFs generados en `Typst/`) y los sube como assets de un release.
 
 Disparadores disponibles:
 
@@ -169,11 +169,11 @@ git push origin v1.0.0
 Para release manual:
 
 1. Ir a Actions.
-2. Abrir el workflow `Release Plantilla on Tag`.
+2. Abrir el workflow `Release on Tag`.
 3. Click en `Run workflow`.
 4. Opcional: indicar `tag_name` (debe iniciar con `v`, por ejemplo `v1.0.1`).
 
-El archivo adjunto al release se llama `Plantilla-<tag>.zip`.
+El release se llama `TeX-Typ-AST <tag>` y adjunta `TeX-AST-Template-<tag>.zip` (LaTeX) y `Typ-AST-Template-<tag>.zip` (Typst).
 
 ## Licencias
 

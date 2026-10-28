@@ -1,4 +1,4 @@
-name: Release Plantilla on Tag
+name: Release on Tag
 
 on:
   push:
@@ -39,8 +39,8 @@ jobs:
               ;;
           esac
 
-          ARCHIVE_NAME="Plantilla-${TAG_NAME}.zip"
-          TYPST_ARCHIVE_NAME="Plantilla-Typst-${TAG_NAME}.zip"
+          ARCHIVE_NAME="TeX-AST-Template-${TAG_NAME}.zip"
+          TYPST_ARCHIVE_NAME="Typ-AST-Template-${TAG_NAME}.zip"
           echo "tag_name=${TAG_NAME}" >> "$GITHUB_OUTPUT"
           echo "archive_name=${ARCHIVE_NAME}" >> "$GITHUB_OUTPUT"
           echo "typst_archive_name=${TYPST_ARCHIVE_NAME}" >> "$GITHUB_OUTPUT"
@@ -64,7 +64,7 @@ jobs:
         with:
           tag_name: ${{ steps.vars.outputs.tag_name }}
           target_commitish: ${{ github.sha }}
-          name: TeX-ASTFIZ ${{ steps.vars.outputs.tag_name }}
+          name: TeX-Typ-AST ${{ steps.vars.outputs.tag_name }}
           files: |
             ${{ steps.vars.outputs.archive_name }}
             ${{ steps.vars.outputs.typst_archive_name }}
