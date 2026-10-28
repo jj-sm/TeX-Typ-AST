@@ -45,17 +45,17 @@ jobs:
           echo "archive_name=${ARCHIVE_NAME}" >> "$GITHUB_OUTPUT"
           echo "typst_archive_name=${TYPST_ARCHIVE_NAME}" >> "$GITHUB_OUTPUT"
 
-      - name: Create release archive from Plantilla
+      - name: Create release archive from LaTeX
         run: |
           ARCHIVE_NAME="${{ steps.vars.outputs.archive_name }}"
-          cd Plantilla
+          cd LaTeX
           zip -r "../${ARCHIVE_NAME}" . -x ".gitignore"
           cd ..
 
-      - name: Create release archive from Plantilla-Typst
+      - name: Create release archive from Typst
         run: |
           TYPST_ARCHIVE_NAME="${{ steps.vars.outputs.typst_archive_name }}"
-          cd Plantilla-Typst
+          cd Typst
           zip -r "../${TYPST_ARCHIVE_NAME}" . -x "*.pdf" -x "_check.typ" -x ".gitignore"
           cd ..
 

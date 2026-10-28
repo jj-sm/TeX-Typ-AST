@@ -1,5 +1,5 @@
 // [UC-TeX] Vista previa de la esfera celeste (equivalentes a Resources/tikz/output/{all,lat,alt}.pdf).
-// typst compile --root Plantilla-Typst Plantilla-Typst/resources/cetz/celestial-sphere-demo.typ
+// typst compile --root Typst Typst/resources/cetz/celestial-sphere-demo.typ
 #import "celestial-sphere.typ": celestial-sphere
 #set page(width: auto, height: auto, margin: 5mm)
 #set text(font: "New Computer Modern", size: 12pt)
