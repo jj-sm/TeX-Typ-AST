@@ -1,0 +1,6 @@
+{
+  "tinymist.rootPath": "${workspaceFolder}/Typst",
+  "tinymist.typstExtraArgs": {
+    "root": "${workspaceFolder}/Typst"
+  }
+}

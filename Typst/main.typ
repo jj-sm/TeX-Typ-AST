@@ -8,13 +8,12 @@
   ..info,
   abstract: include "pages/doc/abstract.typ",
   keywords: (
-    // UAT formatting was simulated in Latex, passing as strings here.
-    "Galaxies",
-    "Cosmology",
-    "High Energy astrophysics",
-    "Interstellar medium",
-    "Stellar astronomy",
-    "Solar physics"
+    uat("Galaxies", 573),
+    uat("Cosmology", 343),
+    uat("High Energy astrophysics", 739),
+    uat("Interstellar medium", 847),
+    uat("Stellar astronomy", 1583),
+    uat("Solar physics", 1476)
   ),
 )
 

@@ -82,6 +82,11 @@
   ]
 }
 
+#let uat(term, code) = {
+  let href = "https://astrothesaurus.org/uat/" + str(code)
+  [#link(href)[#term (#code)]]
+}
+
 // Resumen a ancho completo (ambas columnas) con palabras clave.
 #let abstract-block(abstract, keywords, lang) = {
   if abstract == none { return }
@@ -96,7 +101,7 @@
 
     #if keywords.len() > 0 [
       #v(0.4em)
-      #par(first-line-indent: 0pt, hanging-indent: 1.5em)[_#t(lang, "keywords"):_ #keywords.join(", ")]
+      #par(first-line-indent: 0pt, hanging-indent: 1.5em)[_#t(lang, "keywords"):_ #keywords.join(" — ")]
     ]
   ]
   v(0.3cm)
