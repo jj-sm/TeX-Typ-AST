@@ -143,3 +143,20 @@ u(\nu, T) = \frac{8 \pi h \nu^3}{c^3} \cdot \frac{1}{e^{h \nu / k_B T} - 1}
 u(\lambda, T) = \frac{8 \pi h c}{\lambda^5} \cdot \frac{1}{e^{h c / \lambda k_B T} - 1}
 \]
 
+
+%% [UC-TeX] Ejemplo de macros de astronomía (Config/Macros/astro.tex) y bloques de código (Config/Listings/).
+\subsection{Coordenadas, unidades y código} \label{subsec:astro_codigo}
+
+La nebulosa de Orión \object{M42} se encuentra en $\alpha = \ra{05}{35}{17}$, $\delta = \dec{-05}{23}{28}$, a unos \qty{412}{\parsec} ($\approx \qty{1344}{\lightyr}$). Para $H_0 \approx \qty{70}{\hubblec}$, la metalicidad se denota \cfeh{}.
+
+\begin{lstlisting}[style=python, caption={Ejemplo de código en Python.}]
+import numpy as np
+d_pc = 412
+print(f"Modulo de distancia: {5*np.log10(d_pc) - 5:.2f} mag")
+\end{lstlisting}
+
+\begin{lstlisting}[style=adql, caption={Ejemplo de consulta ADQL a Gaia DR3.}]
+SELECT TOP 10 source_id, ra, dec, phot_g_mean_mag
+FROM gaiadr3.gaia_source
+WHERE 1 = CONTAINS(POINT(ra, dec), CIRCLE(83.82, -5.39, 0.1))
+\end{lstlisting}

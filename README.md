@@ -4,6 +4,8 @@ Plantilla para informes y laboratorios de estudiantes de la Pontificia Universid
 
 >[!NOTE]
 > (27/Dic/2025) Ahora disponible en inglés y español, junto a mejoras menores.
+>
+> (27/Oct/2026) Portada con correo y afiliación por autor (`{ORCID}{Nombre}{Correo}{Afiliación}`), fecha de laboratorio opcional y portada corta para tareas (`Pages/Doc/short_cover.tex`); referencias a una o dos columnas (`\onecolumnrefstrue`); nuevos bloques `\softwareai` y `\dataset`; macros de astronomía (`\ra`, `\dec`, unidades, enlaces a SIMBAD con `\object`); estilos de código Python y ADQL (`Config/Listings/`); estilo bibliográfico opcional `aasjournalv7.1.bst` con títulos de artículos.
 
 > Disclamer 1: En lo posible dar créditos a la plantilla como modificación de AASTeXv7 por [jj-sm](https://github.com/jj-sm/)
 

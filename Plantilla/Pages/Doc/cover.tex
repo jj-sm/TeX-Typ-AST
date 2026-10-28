@@ -1,114 +1,166 @@
+%% [UC-TeX] Portada. Autores/profesores/ayudantes se leen desde Input.tex con la sintaxis
+%% {ORCID}{Nombre}{Correo}{Afiliación}; correo y afiliación (opcionales) van como nota al pie.
 \makeatletter
 
-% --- ORCID display toggle ---
-% \newif\iforcidbool
-% \orcidbooltrue   % or \orcidboolfalse to hide ORCIDs
+% --- Safety fallback for ORCID toggle ---
+\@ifundefined{orcidbooltrue}{%
+    \newif\iforcidbool
+    \orcidbooltrue
+}{}
 
-% --- Count authors ---
+% --- End-of-list sentinel ---
+\def\@nnil{\@nil}
+
+% --- Check if an item is blank/whitespace without \edef ---
+\long\def\@checkitemblank#1{%
+    \expandafter\if\expandafter\relax\detokenize\expandafter{\@gobble#1.}\relax
+        \expandafter\@firstoftwo
+    \else
+        \expandafter\@secondoftwo
+    \fi
+}
+
+% --- Count items in comma-separated list ---
 \newcount\authorcount
-\def\countauthors#1{%
-    \authorcount=0%
-    \@for\@temp:=#1\do{\advance\authorcount by 1}%
+\long\def\countauthorcovers#1{%
+    \authorcount=0\relax
+    \expandafter\@countauthors@i#1,\@nil,%
+}
+\long\def\@countauthors@i#1,{%
+    \def\@curritem{#1}%
+    \ifx\@curritem\@nnil
+    \else
+        \@checkitemblank{#1}{%
+            % Skip blank / trailing comma entry
+        }{%
+            \advance\authorcount by 1\relax
+        }%
+        \expandafter\@countauthors@i
+    \fi
 }
 
-% --- Process author list ---
-\def\@processauthors#1,#2\@nil{%
-    \ifx&#1&%
-    \else%
-        \expandafter\@processauthor#1\\%
-        \ifx&#2&%
-        \else%
-            \@processauthors#2\@nil%
-        \fi%
-    \fi%
-}
-
-% --- Process single author ---
-\def\@processauthor#1#2\\{%
-    \iforcidbool
-        \ifx\relax#1\relax
-            % ORCID empty → just the name
-            \textsc{#2}\\
+% --- Helper: Generate footnote for Email & Affiliation ---
+\long\def\@makeauthorfootnote#1#2{%
+    \if\relax\detokenize{#1}\relax
+        % Email is empty
+        \if\relax\detokenize{#2}\relax
+            % Affiliation is also empty -> emit nothing
         \else
-            % ORCID present → linked name with logo
-            \href{https://orcid.org/#1}{\textsc{#2}%
-            \hspace{0.5mm} \includegraphics[height=0.7em]{Resources/misc/orcid-ID.png}}\\
+            % Affiliation only
+            \footnote{#2}%
         \fi
     \else
-        % ORCID toggle is off → always plain names
-        \textsc{#2}\\
+        % Email is present
+        \if\relax\detokenize{#2}\relax
+            % Email only
+            \footnote{\href{mailto:#1}{\texttt{#1}}}%
+        \else
+            % Both Email and Affiliation
+            \footnote{\href{mailto:#1}{\texttt{#1}}, #2}%
+        \fi
+    \fi
+}
+
+% --- Process single author: {ORCID}{Name}{Email}{Affiliation} ---
+\long\def\@processentry#1#2#3#4{%
+    \iforcidbool
+        \if\relax\detokenize{#1}\relax
+            \textsc{#2}%
+        \else
+            \href{https://orcid.org/#1}{\textsc{#2}%
+            \hspace{0.5mm}\includegraphics[height=0.7em]{Resources/misc/orcid-ID.png}}%
+        \fi
+    \else
+        \textsc{#2}%
+    \fi
+    \@makeauthorfootnote{#3}{#4}%
+    \\%
+}
+
+% --- Process entire author list ---
+\long\def\@processauthorlist#1{%
+    \expandafter\@processauthorlist@i#1,\@nil,%
+}
+\long\def\@processauthorlist@i#1,{%
+    \def\@curritem{#1}%
+    \ifx\@curritem\@nnil
+    \else
+        \@checkitemblank{#1}{%
+            % Skip blank / trailing comma entry
+        }{%
+            \@processentry#1%
+        }%
+        \expandafter\@processauthorlist@i
     \fi
 }
 
 % --- Print authors ---
 \newcommand{\printauthors}{%
-    \countauthors{\coverauthors}%
-    \begin{center}
-    \large\textbf{%
-        \ifnum\authorcount>1%
-            \studenttextplural%
-        \else%
-            \studenttextsingular%
-        \fi%
-    }
-    \end{center}\vspace{-0.35cm}%
-    \expandafter\@processauthors\coverauthors,\@nil%
+    \countauthorcovers{\coverauthors}%
+    \ifnum\authorcount>0
+        \begin{center}
+        \large\textbf{%
+            \ifnum\authorcount>1%
+                \studenttextplural%
+            \else%
+                \studenttextsingular%
+            \fi%
+        }
+        \end{center}\vspace{-0.35cm}%
+        \@processauthorlist{\coverauthors}%
+    \fi
 }
 
 % --- Print professors ---
 \newcommand{\printprof}{%
-    \countauthors{\coverprofessor}%
-    \begin{center}
-    \large\textbf{%
-        \ifnum\authorcount>1%
-            \professortextplural%
-        \else%
-            \professortextsingular%
-        \fi%
-    }
-    \end{center}\vspace{-0.35cm}%
-    \expandafter\@processauthors\coverprofessor,\@nil%
+    \countauthorcovers{\coverprofessor}%
+    \ifnum\authorcount>0
+        \begin{center}
+        \large\textbf{%
+            \ifnum\authorcount>1%
+                \professortextplural%
+            \else%
+                \professortextsingular%
+            \fi%
+        }
+        \end{center}\vspace{-0.35cm}%
+        \@processauthorlist{\coverprofessor}%
+    \fi
 }
 
+% --- Print assistants ---
 \newcommand{\printprofassist}{%
-    \countauthors{\coverassist}%
-    \begin{center}
-    \large\textbf{%
-        \ifnum\authorcount>1%
-            \assisttextplural%
-        \else%
-            \assisttextsingular%
-        \fi%
-    }
-    \end{center}\vspace{-0.35cm}%
-    \expandafter\@processauthors\coverassist,\@nil%
+    \countauthorcovers{\coverassist}%
+    \ifnum\authorcount>0
+        \begin{center}
+        \large\textbf{%
+            \ifnum\authorcount>1%
+                \assisttextplural%
+            \else%
+                \assisttextsingular%
+            \fi%
+        }
+        \end{center}\vspace{-0.35cm}%
+        \@processauthorlist{\coverassist}%
+    \fi
 }
 
 \makeatother
 
-
-
-
 \begin{center}
-% \thispagestyle{plain}
     \newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
-    \center
-    % \textsc{\LARGE Pontificia Universidad Católica de Chile}\\[1cm] 
     
     \vspace{1.5cm}
-    % If you want to override the logo, uncomment the line below and use and comment \coverlogo
-    % \includegraphics[height=6cm]{Resources/logos/AST-center-black.png}
     \includegraphics[scale=\coversubjectlogoscale]{Resources/logos/\coversubjectlogo}
     
-\vspace{1cm}
-\HRule
-\vspace{0.2cm} % space ABOVE the title
+    \vspace{1cm}
+    \HRule
+    \vspace{0.2cm}
 
-{\huge \bfseries \centering \largetitlename \par}
+    {\LARGE \bfseries \centering \largetitlename \par}
 
-\vspace{0.2cm} % space BELOW the title
-\HRule
-
+    \vspace{0.2cm}
+    \HRule
     
     \vfill
     
@@ -117,7 +169,6 @@
     
     \vspace{1cm}
     
-    % \large \textbf{Estudiante} \\
     \printauthors
     
     \printprof
@@ -126,29 +177,18 @@
     
     \vfill
     
-    \makeatletter
-    \setbox0=\hbox{\docinitdate}\ifdim\wd0=0pt
-        % CASE: EMPTY (The box width is 0)
-        \begin{center}
-            \large \textbf{\ReportDateName} \\ 
-            \the\day \ \CommonOfDate \ \docfinalmonth, \the\year
-        \end{center}
-    \else
-        % CASE: NOT EMPTY (The box has width)
-        \noindent
-        \begin{minipage}[t]{0.45\textwidth}
-            \centering
-            \large \textbf{\LabDateName} \\ 
-            \docinitdate, \the\year
-        \end{minipage}
-        \hfill
-        \begin{minipage}[t]{0.45\textwidth}
-            \centering
-            \large \textbf{\ReportDateName} \\ 
-            \the\day \ \CommonOfDate \ \docfinalmonth, \the\year
-        \end{minipage}
+    % [UC-TeX] Si \docinitdate está vacío (p. ej. tareas) solo se muestra la fecha del informe.
+    \if\relax\detokenize\expandafter{\docinitdate}\relax\else
+    \begin{minipage}[t]{0.45\textwidth}
+        \centering
+        \large \textbf{\LabDateName} \\ \docinitdate, \the\year
+    \end{minipage}
+    \hfill
     \fi
-    \makeatother
+    \begin{minipage}[t]{0.45\textwidth}
+        \centering
+        \large \textbf{\ReportDateName} \\ \the\day \ \CommonOfDate \ \docfinalmonth, \the\year
+    \end{minipage}
     
 \end{center}
 \thispagestyle{empty}

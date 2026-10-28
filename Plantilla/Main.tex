@@ -98,11 +98,18 @@
 % >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> BEGIN DOCUMENT <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 \begin{document}
 
+%% [UC-TeX] La portada siempre va a una columna, aunque se use la opción twocolumn.
+\onecolumngrid
 \input{Pages/Doc/cover.tex}
+\twocolumngrid
 
 % ================================================ TITLE =======================================================
 % \title{\Large{\largetitlename}}
 \title{\Large{}}
+
+%% [UC-TeX] Alternativa sin portada (tareas): comente las líneas de cover.tex de arriba y
+%% descomente la siguiente. Usa \specifictitlename (Input.tex) y Authors.tex.
+% \input{Pages/Doc/short_cover}
 
 
 % ================================================ AUTHORS =====================================================
@@ -233,6 +240,15 @@
     The code used to perform the analysis in this work is available at: \url{https://github.com/jj-sm}{GitHub}
 }
 
+%% [UC-TeX] Declaración de uso de IA y datos empleados (textos según idioma en Config/Locales).
+\softwareai{
+    Describa aquí si utilizó herramientas de IA y para qué (p. ej. revisión de redacción).
+}
+
+\dataset{
+    Los datos usados en este trabajo están disponibles en \url{https://github.com/jj-sm}.
+}
+
 % ================================================= APENDIX ======================================================
 %% Appendix material should be preceded with a single \appendix command.
 %% There should be a \section command for each appendix. Mark appendix
@@ -274,6 +290,8 @@
 \fi
 \bibliography{Bibliography}
 \bibliographystyle{Config/NoMod/aasjournalv7.bst}
+%% [UC-TeX] Alternativa: muestra también el título de cada artículo en las referencias.
+% \bibliographystyle{Config/NoMod/aasjournalv7.1.bst}
 
 
 % ================================================ APPENDIX =====================================================
