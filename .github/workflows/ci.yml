@@ -29,7 +29,9 @@ jobs:
           typst-version: '0.15.1'
 
       - name: Compile Typst
-        run: typst compile Typst/main.typ
+        run: |
+          typst compile Typst/main.typ
+          typst compile --root Typst Typst/examples/styles-demo.typ
         # packages @preview/cetz:0.5.3 and unify:0.8.1 download at compile time
 
       - name: Upload PDF Artifacts

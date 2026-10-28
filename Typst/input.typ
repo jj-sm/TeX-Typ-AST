@@ -11,6 +11,11 @@
   // [UC-TeX][INPUT] Portada: "full" (página de portada) o "short" (título al inicio de la página 1).
   cover: "full",
 
+  // [UC-TeX][INPUT] Estilo del documento:
+  // "default" (1 col, 10pt), "twocolumn" (2 cols, 10pt), "preprint" (1 col, 12pt),
+  // "preprint2" (2 cols, 12pt), "manuscript" (1 col, 12pt, doble espaciado), "modern" (1 col, 12pt).
+  style: "preprint2",
+
   // ========================================== PORTADA ==========================================
   // [UC-TeX][INPUT] Logo de la asignatura (ver resources/logos/) y su escala (fracción del ancho).
   logo: "/resources/logos/AST-h-black.png",
