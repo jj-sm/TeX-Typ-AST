@@ -2530,7 +2530,8 @@ ltxfront%
 \ifnumlines\linenumbers\fi
 \def\thempfn{\hskip-12pt}
  \ifx\@@email\@empty\else
- \footnotetext{\hskip-11ptEmail: \@@email}\fi%
+ % \footnotetext{\hskip-11ptEmail: \@@email}\fi%
+ \footnotetext{\hskip-11ptEmail: {\urlstyle{tt}\@@email}}\fi% [MOD] correo en monoespaciado
   \frontmatter@title@format
   \@title
   \@ifx{\@title@aux\@title@aux@cleared}{}{%
@@ -8070,8 +8071,8 @@ For more details, see:\\
 \newdimen\bibindent
 
 \newenvironment{thebibliography}[1]{\global\bibtrue
-% [MOD] - Comentar abajo para colocar referencias en una sola columna.
-\onecolumngrid 
+% [MOD] - Referencias a una o dos columnas: \onecolumnrefstrue / \onecolumnrefsfalse en Input.tex.
+\ifonecolumnrefs\onecolumngrid\fi
 \vspace{20pt}
 \goodbreak
   % \hbox to\textwidth{\hss\normalsize REFERENCES\hss} %% [MOD]
@@ -8261,6 +8262,13 @@ For more details, see:\\
 
 % [MOD]
 \def\facilitiesname{Facilities}%
+% [MOD] Nombres por defecto; Config/Locales/internationalization.tex los traduce.
+\def\softwarecodename{Code}%
+\def\softwareainame{AI Usage}%
+\def\datasetname{Data}%
+% [MOD] Referencias a una columna (true) o dos columnas (false, por defecto).
+\newif\ifonecolumnrefs
+\onecolumnrefsfalse
 
 \newcommand\facilities{\@testopt\@facilities{[}}%
 \def\@facilities[#1]#2{{\vskip6pt{\large\it \facilitiesname:} #2}}%
@@ -8296,7 +8304,47 @@ For more details, see:\\
 %%
 \fontdimen2\foo=3pt %% Adjusted spacing for better appearance
 %%
-{\large \it Código Usado: }#2
+{\large \it \softwarecodename: }#2 % [MOD] texto desde locales
+%% Resetting to original fontdimen
+\iftwelvepoint
+\fontdimen2\foo=3.91663pt
+\else
+\fontdimen2\foo=3.33333pt
+\fi
+}\egroup}
+
+% [MOD] Bloque "Uso de IA" (\softwareai{...}), mismo formato que \softwarecode.
+\long\def\softwareai{\bgroup\@testopt \@softwareai {[}}
+\def\@softwareai[#1]#2{\vskip 6pt{
+\frenchspacing
+\iftwelvepoint
+\font\foo=cmr12
+\else
+\font\foo=cmr10\fi
+%%
+\fontdimen2\foo=3pt %% Adjusted spacing for better appearance
+%%
+{\large \it \softwareainame: }#2
+%% Resetting to original fontdimen
+\iftwelvepoint
+\fontdimen2\foo=3.91663pt
+\else
+\fontdimen2\foo=3.33333pt
+\fi
+}\egroup}
+
+% [MOD] Bloque "Datos Empleados" (\dataset{...}); reemplaza el \dataset de AASTeX.
+\long\def\dataset{\bgroup\@testopt \@dataset {[}}
+\def\@dataset[#1]#2{\vskip 6pt{
+\frenchspacing
+\iftwelvepoint
+\font\foo=cmr12
+\else
+\font\foo=cmr10\fi
+%%
+\fontdimen2\foo=3pt %% Adjusted spacing for better appearance
+%%
+{\large \it \datasetname: }#2
 %% Resetting to original fontdimen
 \iftwelvepoint
 \fontdimen2\foo=3.91663pt
@@ -8307,8 +8355,16 @@ For more details, see:\\
 
 
 
-\newcommand\object{\@testopt\@object{[}}%
-\def\@object[#1]#2{#2}%
+% [MOD] \object[id SIMBAD]{nombre} enlaza a SIMBAD; sin id se busca por el nombre.
+% \newcommand\object{\@testopt\@object{[}}%
+% \def\@object[#1]#2{#2}%
+\newcommand\object[2][]{%
+  \if\relax\detokenize{#1}\relax
+    \href{https://simbad.cds.unistra.fr/simbad/sim-basic?Ident=#2}{#2}%
+  \else
+    \href{https://simbad.cds.unistra.fr/simbad/sim-basic?Ident=#1}{#2}%
+  \fi
+}%
 \newcommand\objectname{\@testopt\@objectname{[]}}% 
 \def\@objectname[#1]#2{#2}% 
 \newlength{\plot@width}
@@ -11804,7 +11860,8 @@ Continúa  \if@two@col\else on next page\fi}\\
 \else
 \centering\unvbox\aassplitbox
 \vspace*{\belowdeluxetableskip}
-\vspace*{24pt}
+% \vspace*{24pt}
+\vspace*{6pt} % [MOD]
 \fi
 \ifdeluxestar
   \ifdeluxesidewaystable
@@ -12827,12 +12884,14 @@ changenum\the\refchangenumber\endcsname{\bf
 
 %% As suggested by Greg Schwarz, August Meunch, Feb 11
 
-\def\dataset{\def\doi##1{https://doi.org/##1}
-\@ifnextchar[{\ydataset}{\xdataset}}
-\def\xdataset#1{\ydataset[]{#1}\let\doi\savedoi}
-\def\ydataset[#1]#2{\def\one{#1}\ifx\one\empty
-\href{#2}{[DATASET]}\else
-\href{#2}{#1}\fi\let\doi\savedoi}
+% [MOD] \dataset original de AASTeX desactivado; ahora es un bloque
+% "Datos Empleados" definido junto a \softwarecode.
+% \def\dataset{\def\doi##1{https://doi.org/##1}
+% \@ifnextchar[{\ydataset}{\xdataset}}
+% \def\xdataset#1{\ydataset[]{#1}\let\doi\savedoi}
+% \def\ydataset[#1]#2{\def\one{#1}\ifx\one\empty
+% \href{#2}{[DATASET]}\else
+% \href{#2}{#1}\fi\let\doi\savedoi}
 
 %% this seems in the middle of nowhere...
 \advance\columnsep6pt

@@ -8,7 +8,10 @@
 % Logos located at Resources/logos/...
 \def\coversubjectlogo{AST-h-black.png} 
 \def\coversubjectlogoscale{0.6} 
-\def\largetitlename{Laboratorio 1: Análisis de Espectros Estelares}
+%% [UC-TeX][INPUT] \specifictitlename se usa sola en Pages/Doc/short_cover.tex;
+%% \largetitlename es el título completo de la portada.
+\def\specifictitlename{Análisis de Espectros Estelares}
+\def\largetitlename{Laboratorio 1: \specifictitlename}
 
 % Select wether you want to include ORCID iDs and links
 \newif\iforcidbool
@@ -25,23 +28,32 @@
 % \usenumcitetrue   % or
 \usenumcitefalse
 
+%% [UC-TeX][INPUT] Referencias a una columna (ancho completo) o a dos columnas (por defecto).
+% \onecolumnrefstrue   % o
+\onecolumnrefsfalse
+
+%% [UC-TeX][INPUT] Sintaxis de cada entrada: {ORCID}{Nombre completo}{Correo}{Afiliación}
+%% Cualquier campo puede quedar vacío ({}). Correo y afiliación aparecen como nota al pie
+%% en la portada. Si una lista queda vacía, su encabezado no se muestra.
+
 % --- Authors ---
 \def\coverauthors{
-    {0009-0005-4685-695X}{Juan José Sánchez Medina},
-    {}{Henrietta Leavitt},
-    {}{Stephen Hawking}
+    {0009-0005-4685-695X}{Juan José Sánchez Medina}{}{},
+    {}{Henrietta Leavitt}{henrietta.leavitt@estudiante.uc.cl}{Pontificia Universidad Católica de Chile},
+    {}{Stephen Hawking}{}{}
 }
 
 % --- Professors ---
 \def\coverprofessor{
-    {0000-0000-0000-0000}{Isaac Newton}
+    {0000-0000-0000-0000}{Isaac Newton}{}{}
 }
 
 % --- Assistants ---
 \def\coverassist{
-    {}{Marie Curie}
+    {}{Marie Curie}{}{}
 }
 
+%% [UC-TeX][INPUT] Deje \docinitdate vacío ({}) para ocultar la fecha del laboratorio (p. ej. tareas).
 % --- Lab Date ---
 \def\docinitdate{6 de noviembre}
 % --- Final Date ---
@@ -87,6 +99,24 @@
 \usepackage{soul}
 \usepackage[colorinlistoftodos, spanish]{todonotes}
 \usepackage{siunitx}
+%% [UC-TeX] Paquetes adicionales
+\usepackage{amssymb}
+\usepackage{float}       % [H] para figuras/tablas
+\usepackage{placeins}    % \FloatBarrier
+\usepackage{mhchem}      % \ce{^{60}Co}
+\usepackage{tikz}
+\usetikzlibrary{positioning, arrows.meta, calc}
+\usepackage{physics}     % \dv, \pdv, \abs, ...
+\AtBeginDocument{\RenewCommandCopy\qty\SI} % physics redefine \qty; se restaura el de siunitx
+
+%% [UC-TeX] Estilos de código (listings): use [style=python] o [style=adql].
+%% Comente las líneas de los lenguajes que no necesite.
+\input{Config/Listings/base.tex}
+\input{Config/Listings/python.tex}
+\input{Config/Listings/adql.tex}
+
+%% [UC-TeX] Macros de astronomía (\ra, \dec, unidades siunitx, nombres de revistas).
+\input{Config/Macros/astro.tex}
 
 % --- Custom Commands ---
 \newcommand{\vdag}{(v)^\dagger}
@@ -99,9 +129,13 @@
   }\nolimits%
 }
 
+%% [UC-TeX] Encabezado centrado dentro de una deluxetable (envuelve \cutinhead).
+\newcommand{\headgroup}[1]{\cutinhead{\makebox[0pt]{#1}}}
+
 \newcommand{\todoerror}[2][]{\todo[color=red!70, inline, #1]{#2}}
 \newcommand{\todowarn}[2][]{\todo[color=orange, inline, #1]{#2}}
 \newcommand{\todoremark}[2][]{\todo[color=yellow!80!black, inline, #1]{#2}}
+\newcommand{\todoshort}[2][]{\todo[color=yellow!80!black, #1]{#2}} %% [UC-TeX] nota al margen
 \newcommand{\todohint}[2][]{\todo[color=green!20, inline, #1]{#2}}
 \newcommand{\tododone}[2][]{\todo[color=blue!50, inline, #1]{#2}}
 

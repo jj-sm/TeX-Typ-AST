@@ -1,0 +1,37 @@
+%% [UC-TeX] Macros de astronomía. Se carga desde Input.tex (después de siunitx).
+
+% --- Coordenadas ---
+% Ascensión recta: \ra{hh}{mm}{ss}  ->  05^h 35^m 17^s
+\newcommand{\ra}[3]{%
+  \num[minimum-integer-digits=2]{#1}^{\text{h}}\, %
+  \num[minimum-integer-digits=2]{#2}^{\text{m}}\, %
+  \num[minimum-integer-digits=2]{#3}^{\text{s}}%
+}
+% Declinación: \dec{dd}{mm}{ss}  ->  -05° 23' 28''
+\newcommand{\dec}[3]{%
+  \num{#1}^{\circ}\, %
+  \num[minimum-integer-digits=2]{#2}'\, %
+  \num[minimum-integer-digits=2]{#3}''%
+}
+
+% --- Unidades siunitx: \qty{10}{\parsec}, \unit{\hubblec} ---
+\DeclareSIUnit\angstrom{\textup{\AA}}
+\DeclareSIUnit\parsec{\textup{pc}}
+\DeclareSIUnit\year{\textup{yr}}
+\DeclareSIUnit\lightyr{\textup{ly}}
+\DeclareSIUnit\jansky{\textup{Jy}}
+\DeclareSIUnit\pixel{\textup{px}}
+\DeclareSIUnit\mas{\textup{mas}}
+\DeclareSIUnit\mag{\textup{mag}}
+\DeclareSIUnit\maggie{\textup{mgy}}
+\DeclareSIUnit\hubblec{\kilo\meter\per\second\per\mega\parsec}
+
+% --- Varios ---
+\newcommand{\cfeh}{$\left[ \rm Fe / H \right]$}
+\newcommand{\tick}{$\checkmark$}
+
+% --- Nombres completos de revistas en la bibliografía (en vez de ApJ, ApJL, Nature) ---
+% Comente estas líneas para volver a las abreviaturas de AASTeX.
+\def\apjl{The Astrophysical Journal Letters}
+\def\apj{The Astrophysical Journal}
+\def\nat{Nature}
